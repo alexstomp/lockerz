@@ -1,5 +1,3 @@
-require 'bag'
-
 class Locker
 
   attr_reader :content # 0 = empty; <BAG> = full

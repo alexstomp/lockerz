@@ -1,7 +1,3 @@
-require 'bag'
-require 'locker'
-require 'ticket'
-
 class Concierge
 
 	attr_reader :lockers, :tickets
@@ -25,7 +21,7 @@ class Concierge
 
 	def check_out(ticket)
 		@tickets.delete(ticket)
-		empty_locker(ticket.locker_id_code)
+		retrieve_bag(ticket)
 	end
 
 	def place_in_available_locker(bag)
@@ -37,9 +33,12 @@ class Concierge
 		locker.fill_locker(bag)
 	end
 
-	def empty_locker(locker_id_code)
-  	located_locker = @lockers.select{|locker| locker.id_code == locker_id_code }.first
-  	located_locker.empty_locker
+	def find_locker(ticket)
+		@lockers.select{|locker| locker.id_code == ticket.locker_id_code }.first
+	end
+
+	def retrieve_bag(ticket)
+  	find_locker(ticket).empty_locker
   end
 
 end
