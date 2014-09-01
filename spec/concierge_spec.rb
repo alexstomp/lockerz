@@ -37,6 +37,13 @@ describe Concierge do
 
       @hotel_las_vegas.tickets.count.should == 0 #checked out tickets should be removed from system      
     end
+
+    it 'notifies if ticket has already been used to checkout with' do
+      @small_bag = Bag.new('S')
+      @small_bag_ticket = @hotel_las_vegas.check_in(@small_bag)
+      @hotel_las_vegas.check_out(@small_bag_ticket).should == @small_bag
+      @hotel_las_vegas.check_out(@small_bag_ticket).should == "THIS TICKET HAS ALREADY BEEN CHECKED OUT"
+    end
   end
 
   it 'lists all currently held tickets' do 

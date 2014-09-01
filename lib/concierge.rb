@@ -21,7 +21,12 @@ class Concierge
 
 	def check_out(ticket)
 		@tickets.delete(ticket)
-		retrieve_bag(ticket)
+		locker = find_locker(ticket)
+		if locker != nil && !locker.empty?
+			locker.empty_locker
+		else
+			return "THIS TICKET HAS ALREADY BEEN CHECKED OUT"
+		end
 	end
 
 	def place_in_available_locker(bag)
@@ -36,9 +41,5 @@ class Concierge
 	def find_locker(ticket)
 		@lockers.select{|locker| locker.id_code == ticket.locker_id_code }.first
 	end
-
-	def retrieve_bag(ticket)
-  	find_locker(ticket).empty_locker
-  end
 
 end
